@@ -1,0 +1,182 @@
+/* ========== 全局基础样式 ========== */
+
+page {
+  font-size: 30rpx;
+  color: #3b2a1a;
+  background-color: #f5efe6;
+}
+
+/*
+ * .btn 统一按钮。
+ * 小程序 <button> 自带左右外边距，还用 ::after 画了一圈细边框；这里都清掉，
+ * 再按统一的配色（白底深字、浅棕描边）和尺寸（高 80rpx、圆角 12rpx）重画。
+ */
+.btn {
+  color: #3b2a1a;
+  background-color: #fff;
+  border: 2rpx solid #c9b391;
+  border-radius: 12rpx;
+  font-size: 30rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  padding: 0 24rpx;
+  margin: 0;
+}
+
+.btn::after {
+  border: none;
+}
+
+/* 主操作：深底白字 */
+.btn.primary {
+  color: #fff;
+  background-color: #3b2a1a;
+  border-color: #3b2a1a;
+}
+
+/* 危险操作（认输等）：红字红框 */
+.btn.danger {
+  color: #b3261e;
+  border-color: #b3261e;
+}
+
+/* 按下反馈：默认的 button-hover 会把深色按钮刷成浅灰，这里只让底色略微变化 */
+.btn.button-hover {
+  background-color: #efe6d8;
+}
+
+.btn.primary.button-hover {
+  background-color: #5a4430;
+}
+
+/*
+ * 禁用态：整体降低不透明度，配色不变。
+ * 小程序给禁用按钮加的灰字灰底选择器更具体，会盖过 .btn[disabled]，
+ * 所以下面再用更具体的选择器把三种按钮各自的配色写回去。
+ */
+.btn[disabled] {
+  opacity: 0.4;
+}
+
+.btn.btn[disabled] {
+  color: #3b2a1a;
+  background-color: #fff;
+  border-color: #c9b391;
+}
+
+.btn.primary[disabled] {
+  color: #fff;
+  background-color: #3b2a1a;
+  border-color: #3b2a1a;
+}
+
+.btn.danger[disabled] {
+  color: #b3261e;
+  background-color: #fff;
+  border-color: #b3261e;
+}
+
+/* ---------- 各页面共用（ui- 前缀，避免与页面自己的类名冲突） ---------- */
+
+.ui-card {
+  margin-bottom: 24rpx;
+  padding: 32rpx;
+  border-radius: 20rpx;
+  background: #fff;
+  box-shadow: 0 8rpx 24rpx rgba(59, 42, 26, 0.08);
+}
+
+/* 分段选择：路数 / 执子 */
+.ui-seg {
+  display: flex;
+}
+
+/* 间距用 margin 而不是 flex 的 gap：gap 需要 iOS 14.5+ 的 WebView */
+.ui-seg-item + .ui-seg-item {
+  margin-left: 16rpx;
+}
+
+.ui-seg-item {
+  flex: 1;
+  padding: 20rpx 0;
+  border: 2rpx solid #c9b391;
+  border-radius: 12rpx;
+  background: #fff;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+.ui-seg-item.active {
+  color: #fff;
+  font-weight: bold;
+  border-color: #3b2a1a;
+  background: #3b2a1a;
+}
+
+/* 一行等宽按钮（对局页、复盘页的操作栏）：按钮平分整行，文字少的也不会变窄。
+   间距用 margin 而不是 flex 的 gap：gap 需要 iOS 14.5+ 的 WebView */
+.ui-btn-row {
+  display: flex;
+}
+
+.ui-btn-row .btn {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0 8rpx;
+}
+
+.ui-btn-row .btn + .btn {
+  margin-left: 16rpx;
+}
+
+/* 顶部断线提示条 */
+.ui-netbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 14rpx 24rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #fff;
+  background: #b3261e;
+}
+
+/* 空状态 / 出错 */
+.ui-empty {
+  padding: 80rpx 40rpx;
+  text-align: center;
+}
+
+.ui-empty-text {
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: #7a6248;
+}
+
+.ui-empty-btn {
+  display: inline-block;
+  min-width: 240rpx;
+  margin-top: 32rpx;
+}
+
+/* 加载中等提示文字 */
+.ui-tip {
+  padding: 60rpx 0;
+  text-align: center;
+  font-size: 26rpx;
+  color: #a08c6c;
+}
+
+.ui-spinner {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  border: 6rpx solid #e2d5bf;
+  border-top-color: #3b2a1a;
+  animation: ui-spin 0.9s linear infinite;
+}
+
+@keyframes ui-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "本地对弈",
+  "usingComponents": {
+    "goboard": "/components/goboard/goboard"
+  }
+}

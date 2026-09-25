@@ -1,0 +1,126 @@
+/* 底部留出固定"开始对局"栏的高度 */
+.page {
+  padding: 32rpx 40rpx calc(200rpx + env(safe-area-inset-bottom));
+}
+
+/* ---------- 标题卡片 ---------- */
+.head {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.head-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+.subtitle {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #7a6248;
+}
+
+.head-stones {
+  display: flex;
+  flex: none;
+  margin-left: 24rpx;
+}
+
+.mini {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.3);
+}
+
+.mini.b {
+  background: radial-gradient(circle at 32% 30%, #6b6b6b, #111 60%);
+}
+
+.mini.w {
+  margin-left: -14rpx;
+  background: radial-gradient(circle at 32% 30%, #fff, #d9d4cc 70%);
+}
+
+/* ---------- 设置项 ---------- */
+.section {
+  margin-bottom: 40rpx;
+}
+
+.section-title {
+  margin-bottom: 16rpx;
+  color: #7a6248;
+}
+
+.seg-sub {
+  font-size: 20rpx;
+  opacity: 0.7;
+}
+
+/* 贴目输入：白底圆角框，数字居中放大 */
+.komi-box {
+  display: flex;
+  align-items: center;
+  height: 96rpx;
+  padding: 0 32rpx;
+  border: 2rpx solid #c9b391;
+  border-radius: 12rpx;
+  background: #fff;
+}
+
+.komi-label,
+.komi-unit {
+  flex: none;
+  font-size: 28rpx;
+  color: #7a6248;
+}
+
+.komi-input {
+  flex: 1;
+  min-width: 0;
+  height: 96rpx;
+  margin: 0 16rpx;
+  text-align: center;
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #3b2a1a;
+}
+
+.komi-placeholder {
+  font-weight: normal;
+  color: #c9b391;
+}
+
+.presets {
+  margin-top: 16rpx;
+}
+
+.note {
+  font-size: 24rpx;
+  line-height: 1.6;
+  color: #a08c6c;
+}
+
+/* ---------- 底部按钮 ---------- */
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 24rpx 40rpx calc(24rpx + env(safe-area-inset-bottom));
+  background: #f5efe6;
+  box-shadow: 0 -8rpx 24rpx rgba(59, 42, 26, 0.08);
+}
+
+.btn.big {
+  height: 96rpx;
+  line-height: 96rpx;
+  font-size: 34rpx;
+  font-weight: bold;
+}

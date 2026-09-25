@@ -1,0 +1,198 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+.state-box {
+  padding: 200rpx 60rpx 0;
+  text-align: center;
+}
+
+.state-text {
+  font-size: 32rpx;
+  margin-bottom: 60rpx;
+}
+
+.muted {
+  color: #7a6248;
+}
+
+.state-actions {
+  display: flex;
+}
+
+/* 间距用 margin 而不是 flex 的 gap：gap 需要 iOS 14.5+ 的 WebView */
+.state-actions .btn + .btn {
+  margin-left: 20rpx;
+}
+
+.state-actions .btn {
+  flex: 1;
+}
+
+.header {
+  padding: 16rpx 24rpx 12rpx;
+}
+
+.players {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.side {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.side-name {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  margin-top: 8rpx;
+}
+
+.name {
+  font-size: 28rpx;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.vs {
+  flex-shrink: 0;
+  margin: 0 20rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #c9b391;
+}
+
+.stone {
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-right: 8rpx;
+  box-sizing: border-box;
+}
+
+.stone-1 {
+  background: #111;
+}
+
+.stone-2 {
+  background: #fafafa;
+  border: 2rpx solid #333;
+}
+
+.tag {
+  flex-shrink: 0;
+  margin-left: 8rpx;
+  padding: 0 8rpx;
+  font-size: 20rpx;
+  line-height: 30rpx;
+  border-radius: 8rpx;
+  background: #f5efe6;
+  color: #7a6248;
+  border: 1rpx solid #c9b391;
+}
+
+.result-line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12rpx;
+}
+
+.my-result {
+  margin-right: 12rpx;
+  padding: 0 14rpx;
+  font-size: 24rpx;
+  line-height: 40rpx;
+  border-radius: 8rpx;
+  color: #fff;
+  background: #7a6248;
+}
+
+.my-result.win {
+  background: #b8860b;
+}
+
+.my-result.loss {
+  background: #3b2a1a;
+}
+
+.result {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.info {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #7a6248;
+  text-align: center;
+}
+
+.error {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #b3261e;
+  text-align: center;
+}
+
+.move-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12rpx 24rpx 0;
+  font-size: 26rpx;
+}
+
+.move-text {
+  font-weight: bold;
+}
+
+.caps {
+  color: #7a6248;
+}
+
+.final {
+  padding: 4rpx 24rpx 0;
+  font-size: 26rpx;
+  color: #7a6248;
+}
+
+.slider-box {
+  display: flex;
+  align-items: center;
+  padding: 0 12rpx 0 0;
+}
+
+.slider-box slider {
+  flex: 1;
+}
+
+.progress {
+  flex-shrink: 0;
+  min-width: 110rpx;
+  text-align: right;
+  font-size: 24rpx;
+  color: #7a6248;
+  font-variant-numeric: tabular-nums;
+}
+
+.nav {
+  padding: 0 24rpx;
+}
+
+.nav.extra {
+  margin-top: 20rpx;
+}

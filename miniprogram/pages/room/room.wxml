@@ -1,0 +1,98 @@
+<view class="page">
+  <view class="ui-netbar" wx:if="{{netStatus === 'closed' || netStatus === 'connecting'}}">连接中断，正在重连…</view>
+
+  <!-- 加载中 -->
+  <view class="state" wx:if="{{view === 'loading'}}">
+    <view class="ui-spinner"></view>
+    <view class="state-text">{{loadingText}}</view>
+  </view>
+
+  <!-- 房主：等待好友加入 -->
+  <block wx:elif="{{view === 'waiting'}}">
+    <view class="ui-card code-card">
+      <view class="code-label">房间号</view>
+      <view class="code">
+        <view class="digit" wx:for="{{room.digits}}" wx:key="i">{{item.d}}</view>
+      </view>
+      <view class="room-meta">{{room.sizeText}} · {{room.colorText}}</view>
+      <view class="copy" bindtap="onCopy" hover-class="copy-hover">复制房号</view>
+    </view>
+
+    <view class="waiting">
+      <view class="dots">
+        <view class="d"></view>
+        <view class="d d2"></view>
+        <view class="d d3"></view>
+      </view>
+      <view class="waiting-text">等待好友加入…</view>
+      <view class="expire" wx:if="{{expireText}}">{{expireText}} 后房间失效</view>
+    </view>
+
+    <view class="actions">
+      <button class="btn primary big" open-type="share">邀请微信好友</button>
+      <button class="btn" bindtap="onCancel">取消房间</button>
+    </view>
+    <view class="note">好友点开你分享的卡片，或在首页输入房号即可加入。离开本页房间仍会保留，好友加入时会提醒你；不想等了请点"取消房间"。友谊赛不计入排行榜。</view>
+  </block>
+
+  <!-- 受邀者：查看房间并加入 -->
+  <block wx:elif="{{view === 'invite'}}">
+    <view class="ui-card invite-card">
+      <avatar src="{{room.ownerAvatar}}" name="{{room.ownerName}}" size="{{144}}" />
+      <view class="owner-name">{{room.ownerName}}</view>
+      <view class="invite-text">邀请你下一盘围棋</view>
+      <view class="chips">
+        <view class="chip">{{room.sizeText}}</view>
+        <view class="chip">{{room.colorText}}</view>
+        <view class="chip">友谊赛</view>
+      </view>
+      <view class="room-no">房间号 {{room.code}}</view>
+    </view>
+    <view class="actions">
+      <button class="btn primary big" bindtap="onJoin" loading="{{joining}}" disabled="{{joining}}">加入对局</button>
+      <button class="btn" bindtap="onHome">返回首页</button>
+    </view>
+  </block>
+
+  <!-- 手动输入房号 -->
+  <view class="ui-card entry-card" wx:elif="{{view === 'entry'}}">
+    <view class="entry-title">输入房间号</view>
+    <view class="entry-desc">向好友要 6 位数字房号</view>
+    <input
+      class="code-input"
+      type="number"
+      maxlength="6"
+      focus
+      value="{{codeInput}}"
+      placeholder="6 位数字"
+      placeholder-class="code-placeholder"
+      bindinput="onCodeInput"
+      bindconfirm="onSubmitCode"
+    />
+    <view class="entry-error">{{entryError}}</view>
+    <button class="btn primary big" bindtap="onSubmitCode" disabled="{{codeInput.length !== 6}}">进入房间</button>
+  </view>
+
+  <!-- 房间已关闭 / 不存在 -->
+  <view class="state" wx:elif="{{view === 'closed'}}">
+    <view class="state-icon">!</view>
+    <view class="state-text">{{closedText}}</view>
+    <button wx:if="{{canRecreate}}" class="btn primary state-btn" bindtap="onRecreate">重新创建房间</button>
+    <button wx:if="{{fromEntry}}" class="btn state-btn" bindtap="onReenter">重新输入房号</button>
+    <button class="btn state-btn" bindtap="onHome">返回首页</button>
+  </view>
+
+  <!-- 已开局但跳转失败 -->
+  <view class="state" wx:elif="{{view === 'started'}}">
+    <view class="state-text">对局已开始</view>
+    <button class="btn primary state-btn" bindtap="openGame">进入对局</button>
+  </view>
+
+  <!-- 出错 -->
+  <view class="state" wx:else>
+    <view class="state-icon">!</view>
+    <view class="state-text">{{errorText}}</view>
+    <button wx:if="{{canRetry}}" class="btn primary state-btn" bindtap="onRetry">重试</button>
+    <button class="btn state-btn" bindtap="onHome">返回首页</button>
+  </view>
+</view>

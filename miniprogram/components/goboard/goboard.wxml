@@ -1,0 +1,16 @@
+<!-- 棋盘画布：触摸时 touches[i].x / y 是相对画布的 CSS 像素。
+     catchtouchmove：手指在棋盘上拖动（移动预览子）时，不让页面跟着滚动或触发下拉刷新。
+     不依赖 disable-scroll 在各机型 type="2d" 画布上是否生效，棋盘禁用时（如复盘）也照样拦截；
+     要滚动页面，在棋盘以外的区域拖动即可。
+     catchtap 拦下原生 tap，免得它冒泡出去和组件自定义的 tap 事件混在一起。 -->
+<canvas
+  type="2d"
+  id="goboard-canvas"
+  class="goboard"
+  disable-scroll="{{true}}"
+  bindtouchstart="onTouchStart"
+  catchtouchmove="onTouchMove"
+  bindtouchend="onTouchEnd"
+  bindtouchcancel="onTouchCancel"
+  catchtap="onNativeTap"
+></canvas>

@@ -1,0 +1,351 @@
+/* 整页至少一屏高；底部给全面屏的手势条让出位置 */
+.page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+/* ---------- 顶部 ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: #3b2a1a;
+  color: #f5efe6;
+  padding: 32rpx 40rpx 88rpx;
+}
+
+/* 斜放的小棋盘：两组渐变画出网格线，格距 40rpx */
+.hero-board {
+  position: absolute;
+  right: -70rpx;
+  top: 36rpx;
+  width: 320rpx;
+  height: 320rpx;
+  border-radius: 16rpx;
+  background-color: #e3b96b;
+  background-image:
+    linear-gradient(to right, #5a3d1e 2rpx, transparent 2rpx),
+    linear-gradient(to bottom, #5a3d1e 2rpx, transparent 2rpx);
+  background-size: 40rpx 40rpx;
+  transform: rotate(-14deg);
+  opacity: 0.88;
+  box-shadow: 0 12rpx 32rpx rgba(0, 0, 0, 0.35);
+}
+
+.stone {
+  position: absolute;
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 50%;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.4);
+}
+
+.stone.b {
+  background: radial-gradient(circle at 32% 30%, #6b6b6b, #111 60%);
+}
+
+.stone.w {
+  background: radial-gradient(circle at 32% 30%, #fff, #d9d4cc 70%);
+}
+
+/* 交叉点 (x, y) 的左上角 = 40 * 坐标 - 16 */
+.s1 { left: 104rpx; top: 104rpx; }
+.s2 { left: 144rpx; top: 104rpx; }
+.s3 { left: 144rpx; top: 144rpx; }
+.s4 { left: 104rpx; top: 144rpx; }
+.s5 { left: 184rpx; top: 64rpx; }
+.s6 { left: 64rpx; top: 184rpx; }
+.s7 { left: 224rpx; top: 144rpx; }
+
+.user {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 8rpx 24rpx 8rpx 8rpx;
+  min-height: 76rpx;
+  border-radius: 48rpx;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.user-hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.user-text {
+  display: flex;
+  flex-direction: column;
+  padding-left: 8rpx;
+}
+
+/* 头像与文字之间（不用 flex 的 gap：需要 iOS 14.5+） */
+.user-text.with-avatar {
+  margin-left: 20rpx;
+}
+
+.user-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  max-width: 300rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.user-sub {
+  font-size: 22rpx;
+  color: #c9b391;
+}
+
+.hero-title {
+  position: relative;
+  margin-top: 56rpx;
+  font-size: 92rpx;
+  font-weight: bold;
+  letter-spacing: 16rpx;
+}
+
+.hero-sub {
+  position: relative;
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  color: #c9b391;
+  letter-spacing: 4rpx;
+}
+
+.hero-offline {
+  position: relative;
+  display: inline-block;
+  margin-top: 20rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  background: rgba(179, 38, 30, 0.85);
+  color: #fff;
+}
+
+/* ---------- 主体 ---------- */
+.body {
+  position: relative;
+  margin-top: -48rpx;
+  padding: 0 32rpx;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+  padding: 24rpx 28rpx;
+  border-radius: 16rpx;
+  background: #fff7e6;
+  border: 2rpx solid #e8c98f;
+  box-shadow: 0 8rpx 24rpx rgba(59, 42, 26, 0.12);
+}
+
+.banner-hover {
+  background: #fcebc9;
+}
+
+.banner-dot {
+  flex: none;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: #d9822b;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.banner.game .banner-dot {
+  background: #b3261e;
+}
+
+.banner.kicked .banner-dot {
+  background: #8a8a8a;
+  animation: none;
+}
+
+.banner-text {
+  flex: 1;
+  margin: 0 16rpx;
+  font-size: 28rpx;
+}
+
+.banner-arrow {
+  flex: none;
+  font-size: 36rpx;
+  color: #a08c6c;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.match-card .card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+.card-desc {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #7a6248;
+}
+
+.match-card .ui-seg {
+  margin: 28rpx 0;
+}
+
+.btn.big {
+  height: 96rpx;
+  line-height: 96rpx;
+  font-size: 34rpx;
+  font-weight: bold;
+  border-radius: 16rpx;
+}
+
+.mini-stones {
+  display: flex;
+}
+
+.mini {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.3);
+}
+
+.mini.b {
+  background: radial-gradient(circle at 32% 30%, #6b6b6b, #111 60%);
+}
+
+.mini.w {
+  margin-left: -14rpx;
+  background: radial-gradient(circle at 32% 30%, #fff, #d9d4cc 70%);
+}
+
+.tiles {
+  display: flex;
+}
+
+.tile + .tile {
+  margin-left: 24rpx;
+}
+
+.tiles.three {
+  margin-top: 24rpx;
+}
+
+.tile {
+  flex: 1;
+  min-width: 0;
+  padding: 28rpx;
+  border-radius: 20rpx;
+  background: #fff;
+  box-shadow: 0 8rpx 24rpx rgba(59, 42, 26, 0.08);
+}
+
+.tile-hover {
+  background: #f9f3ea;
+}
+
+.tile.small {
+  padding: 24rpx 20rpx;
+  text-align: center;
+}
+
+.tile-icon {
+  display: flex;
+  align-items: center;
+  height: 64rpx;
+  margin-bottom: 16rpx;
+}
+
+.tile-icon .mini {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.tile-icon.ai {
+  justify-content: center;
+  width: 64rpx;
+  border-radius: 16rpx;
+  background: #3b2a1a;
+  color: #e3b96b;
+  font-weight: bold;
+  font-size: 28rpx;
+}
+
+.tile-title {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.tile.small .tile-title {
+  font-size: 28rpx;
+}
+
+.tile-desc {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #7a6248;
+}
+
+/* ---------- 好友对战面板 ---------- */
+/* 半透明遮罩铺满视口，面板从底部弹出 */
+.sheet-mask {
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.sheet {
+  padding: 40rpx 40rpx calc(24rpx + env(safe-area-inset-bottom));
+  border-radius: 32rpx 32rpx 0 0;
+  background: #f5efe6;
+}
+
+.sheet-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  text-align: center;
+}
+
+.sheet-desc {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #7a6248;
+  text-align: center;
+}
+
+.sheet-label {
+  margin: 32rpx 0 16rpx;
+  color: #7a6248;
+}
+
+.sheet-btn {
+  margin-top: 24rpx;
+}
+
+.sheet-btn.first {
+  margin-top: 40rpx;
+}
+
+.sheet-cancel {
+  margin-top: 16rpx;
+  padding: 20rpx;
+  text-align: center;
+  color: #7a6248;
+}

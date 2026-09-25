@@ -1,0 +1,11 @@
+<view class="avatar custom-class" style="width: {{box}}rpx; height: {{box}}rpx;">
+  <image
+    wx:if="{{src && !failed}}"
+    class="img"
+    src="{{src}}"
+    mode="aspectFill"
+    lazy-load
+    binderror="onImageError"
+  />
+  <view wx:else class="initial" style="background: {{bg}}; font-size: {{font}}rpx;">{{initial}}</view>
+</view>

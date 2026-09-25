@@ -1,0 +1,358 @@
+/* 整页至少一屏高、子元素竖排；底部给全面屏的手势条让出位置 */
+.page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+}
+
+/* 断线提示 */
+.banner {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 16rpx 30rpx;
+  background: #b3261e;
+  color: #fff;
+  font-size: 26rpx;
+  text-align: center;
+}
+
+.state-box {
+  padding: 200rpx 60rpx 0;
+  text-align: center;
+}
+
+.state-text {
+  font-size: 32rpx;
+  margin-bottom: 60rpx;
+}
+
+.muted {
+  color: #7a6248;
+}
+
+.state-actions {
+  display: flex;
+}
+
+/* 间距用 margin 而不是 flex 的 gap：gap 需要 iOS 14.5+ 的 WebView */
+.state-actions .btn + .btn {
+  margin-left: 20rpx;
+}
+
+.state-actions .btn {
+  flex: 1;
+}
+
+.info-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10rpx 24rpx;
+  font-size: 24rpx;
+  color: #7a6248;
+}
+
+.info {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-right: 16rpx;
+}
+
+.move-no {
+  flex-shrink: 0;
+}
+
+/* 棋手信息条 */
+.player {
+  display: flex;
+  align-items: center;
+  margin: 8rpx 16rpx;
+  padding: 12rpx 16rpx;
+  border-radius: 16rpx;
+  background: #fff;
+  border: 2rpx solid #e6dccb;
+}
+
+.player.active {
+  border-color: #3b2a1a;
+  box-shadow: 0 0 0 2rpx #3b2a1a inset;
+}
+
+.avatar-box {
+  position: relative;
+  width: 72rpx;
+  height: 72rpx;
+  flex-shrink: 0;
+  margin-right: 16rpx;
+}
+
+.presence {
+  position: absolute;
+  right: -4rpx;
+  bottom: -4rpx;
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  border: 4rpx solid #fff;
+}
+
+.presence.on {
+  background: #3a9d4a;
+}
+
+.presence.off {
+  background: #b0a594;
+}
+
+.meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.name-line {
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  font-size: 30rpx;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.stone {
+  width: 26rpx;
+  height: 26rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-right: 10rpx;
+  box-sizing: border-box;
+}
+
+.stone-1 {
+  background: #111;
+}
+
+.stone-2 {
+  background: #fafafa;
+  border: 2rpx solid #333;
+}
+
+.tag {
+  flex-shrink: 0;
+  margin-left: 10rpx;
+  padding: 0 10rpx;
+  font-size: 20rpx;
+  line-height: 32rpx;
+  border-radius: 8rpx;
+  background: #f5efe6;
+  color: #7a6248;
+  border: 1rpx solid #c9b391;
+}
+
+.tag.ai {
+  background: #3b2a1a;
+  color: #fff;
+  border-color: #3b2a1a;
+}
+
+.sub-line {
+  margin-top: 4rpx;
+  font-size: 24rpx;
+  color: #7a6248;
+}
+
+.sub-line text {
+  margin-right: 16rpx;
+}
+
+.offline {
+  color: #b3261e;
+}
+
+.thinking {
+  color: #3b2a1a;
+  font-weight: bold;
+}
+
+.clock {
+  flex-shrink: 0;
+  min-width: 140rpx;
+  margin-left: 12rpx;
+  padding: 6rpx 14rpx;
+  border-radius: 12rpx;
+  background: #f5efe6;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.clock.running {
+  background: #3b2a1a;
+  color: #fff;
+}
+
+.clock.urgent {
+  background: #b3261e;
+  color: #fff;
+}
+
+.clock-main {
+  font-size: 36rpx;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+  line-height: 44rpx;
+}
+
+.clock-sub {
+  font-size: 20rpx;
+  line-height: 28rpx;
+}
+
+.status-line {
+  min-height: 48rpx;
+  line-height: 48rpx;
+  padding: 4rpx 24rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #7a6248;
+}
+
+.status-line.error {
+  color: #b3261e;
+}
+
+.actions {
+  padding: 8rpx 24rpx 0;
+}
+
+/* 数子与终局卡片 */
+.card {
+  margin: 8rpx 24rpx 16rpx;
+  padding: 24rpx 28rpx;
+  border-radius: 16rpx;
+  background: #fff;
+  border: 2rpx solid #e6dccb;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12rpx;
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.deadline {
+  font-size: 24rpx;
+  color: #b3261e;
+}
+
+.score-line {
+  display: flex;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.score-item {
+  display: flex;
+  align-items: center;
+}
+
+.score-item + .score-item {
+  margin-left: 40rpx;
+}
+
+.lead {
+  margin-top: 8rpx;
+  font-size: 28rpx;
+}
+
+/* 数子法：白方点数含贴目的说明 */
+.komi {
+  margin-top: 4rpx;
+  font-size: 22rpx;
+  color: #9a8a74;
+}
+
+.accept-line {
+  display: flex;
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: #7a6248;
+}
+
+.accept-line text + text {
+  margin-left: 40rpx;
+}
+
+.accept-line .ok {
+  color: #3a9d4a;
+}
+
+.tip {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #7a6248;
+}
+
+.note {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #9a8a74;
+}
+
+.end {
+  text-align: center;
+}
+
+.end-title {
+  font-size: 48rpx;
+  font-weight: bold;
+}
+
+.end-title.win {
+  color: #b8860b;
+}
+
+.end-title.loss {
+  color: #3b2a1a;
+}
+
+.end-title.draw,
+.end-title.void {
+  color: #7a6248;
+}
+
+.end-label {
+  margin-top: 8rpx;
+  font-size: 30rpx;
+}
+
+.end-score {
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  color: #7a6248;
+}
+
+.end-lines {
+  margin: 16rpx 0 24rpx;
+}
+
+.end-line {
+  font-size: 26rpx;
+  line-height: 40rpx;
+  color: #7a6248;
+}
+

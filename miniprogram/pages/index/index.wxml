@@ -1,0 +1,150 @@
+<view class="page">
+  <!-- 顶部：深色背景 + 斜放的小棋盘纹样 -->
+  <view class="hero">
+    <view class="hero-board">
+      <view class="stone b s1"></view>
+      <view class="stone w s2"></view>
+      <view class="stone b s3"></view>
+      <view class="stone w s4"></view>
+      <view class="stone b s5"></view>
+      <view class="stone w s6"></view>
+      <view class="stone b s7"></view>
+    </view>
+
+    <view class="user" bindtap="onUserTap" hover-class="user-hover">
+      <block wx:if="{{loginState === 'ok'}}">
+        <avatar src="{{user.avatarUrl}}" name="{{user.nickname}}" size="{{76}}" />
+        <view class="user-text with-avatar">
+          <view class="user-name">{{user.nickname || '未设置昵称'}}</view>
+          <view class="user-sub">{{user.nickname ? '我的战绩 ›' : '设置头像昵称 ›'}}</view>
+        </view>
+      </block>
+      <view wx:elif="{{loginState === 'error'}}" class="user-text">
+        <view class="user-name">登录失败</view>
+        <view class="user-sub">点击重试 ›</view>
+      </view>
+      <view wx:else class="user-text">
+        <view class="user-name">登录中…</view>
+      </view>
+    </view>
+
+    <view class="hero-title">围棋</view>
+    <view class="hero-sub">黑白之间 · 手谈一局</view>
+    <view class="hero-offline" wx:if="{{loginState === 'error' && loginError}}">{{loginError}}</view>
+    <view class="hero-offline" wx:elif="{{offline}}">网络未连接，联网对弈暂不可用</view>
+  </view>
+
+  <view class="body">
+    <!-- 账号在其他设备登录：不自动重连，点击后在本机重新连接 -->
+    <view wx:if="{{kicked}}" class="banner kicked" bindtap="onReconnect" hover-class="banner-hover">
+      <view class="banner-dot"></view>
+      <view class="banner-text">账号已在其他设备登录，点击在本机重新连接</view>
+      <view class="banner-arrow">›</view>
+    </view>
+
+    <!-- 进行中的对局 / 房间 / 匹配 -->
+    <view
+      wx:for="{{banners}}"
+      wx:key="key"
+      class="banner {{item.kind}}"
+      data-url="{{item.url}}"
+      bindtap="onBannerTap"
+      hover-class="banner-hover"
+    >
+      <view class="banner-dot"></view>
+      <view class="banner-text">{{item.text}}</view>
+      <view class="banner-arrow">›</view>
+    </view>
+
+    <!-- 快速匹配：主操作 -->
+    <view class="ui-card match-card">
+      <view class="card-head">
+        <view>
+          <view class="card-title">快速匹配</view>
+          <view class="card-desc">随机对手 · 排位赛 · 计入排行榜</view>
+        </view>
+        <view class="mini-stones">
+          <view class="mini b"></view>
+          <view class="mini w"></view>
+        </view>
+      </view>
+      <view class="ui-seg">
+        <view
+          wx:for="{{sizes}}"
+          wx:for-item="n"
+          wx:key="*this"
+          class="ui-seg-item {{n === matchSize ? 'active' : ''}}"
+          data-size="{{n}}"
+          bindtap="onPickMatchSize"
+        >{{n}} 路</view>
+      </view>
+      <button class="btn primary big" bindtap="onQuickMatch">开始匹配</button>
+    </view>
+
+    <!-- 其他入口 -->
+    <view class="tiles two">
+      <view class="tile" bindtap="onOpenFriend" hover-class="tile-hover">
+        <view class="tile-icon friend">
+          <view class="mini b"></view>
+          <view class="mini w"></view>
+        </view>
+        <view class="tile-title">好友对战</view>
+        <view class="tile-desc">创建房间，邀请微信好友</view>
+      </view>
+      <view class="tile" bindtap="onAi" hover-class="tile-hover">
+        <view class="tile-icon ai">AI</view>
+        <view class="tile-title">人机对弈</view>
+        <view class="tile-desc">多档难度，随时练棋</view>
+      </view>
+    </view>
+    <view class="tiles three">
+      <view class="tile small" bindtap="onLocal" hover-class="tile-hover">
+        <view class="tile-title">本地对弈</view>
+        <view class="tile-desc">同一台手机两人下</view>
+      </view>
+      <view class="tile small" bindtap="onLeaderboard" hover-class="tile-hover">
+        <view class="tile-title">排行榜</view>
+        <view class="tile-desc">连胜 · 胜率</view>
+      </view>
+      <view class="tile small" bindtap="onMe" hover-class="tile-hover">
+        <view class="tile-title">我的</view>
+        <view class="tile-desc">战绩与棋谱</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 好友对战面板 -->
+  <view class="sheet-mask" wx:if="{{panel}}" bindtap="onClosePanel">
+    <view class="sheet" catchtap="noop">
+      <view class="sheet-title">好友对战</view>
+      <view class="sheet-desc">友谊赛，不计入排行榜</view>
+
+      <view class="sheet-label">棋盘路数</view>
+      <view class="ui-seg">
+        <view
+          wx:for="{{sizes}}"
+          wx:for-item="n"
+          wx:key="*this"
+          class="ui-seg-item {{n === roomSize ? 'active' : ''}}"
+          data-size="{{n}}"
+          bindtap="onPickRoomSize"
+        >{{n}} 路</view>
+      </view>
+
+      <view class="sheet-label">我的执子</view>
+      <view class="ui-seg">
+        <view
+          wx:for="{{roomColors}}"
+          wx:key="id"
+          class="ui-seg-item {{item.id === roomColor ? 'active' : ''}}"
+          data-color="{{item.id}}"
+          bindtap="onPickRoomColor"
+        >{{item.name}}</view>
+      </view>
+
+      <button class="btn primary sheet-btn first" bindtap="onCreateRoom">创建房间并邀请好友</button>
+      <button class="btn sheet-btn" bindtap="onEnterCode">输入房号加入</button>
+      <view class="sheet-cancel" bindtap="onClosePanel">取消</view>
+    </view>
+  </view>
+</view>

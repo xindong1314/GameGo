@@ -1,0 +1,186 @@
+.page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
+}
+
+.tabs {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  padding: 16rpx 32rpx;
+  background: #f5efe6;
+}
+
+/* 间距用 margin 而不是 flex 的 gap：gap 需要 iOS 14.5+ 的 WebView */
+.tab + .tab {
+  margin-left: 16rpx;
+}
+
+.tab {
+  flex: 1;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 36rpx;
+  text-align: center;
+  font-size: 28rpx;
+  border: 2rpx solid #c9b391;
+  background: #fff;
+}
+
+.tab.active {
+  color: #fff;
+  font-weight: bold;
+  border-color: #3b2a1a;
+  background: #3b2a1a;
+}
+
+.hint {
+  padding: 4rpx 32rpx 16rpx;
+  font-size: 22rpx;
+  color: #a08c6c;
+}
+
+.list {
+  margin: 0 32rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 8rpx 24rpx rgba(59, 42, 26, 0.08);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 28rpx;
+  border-bottom: 1rpx solid #f0e8dc;
+}
+
+.row.me {
+  background: #fff7e6;
+}
+
+.rank {
+  flex: none;
+  margin-right: 20rpx;
+  width: 56rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #7a6248;
+  font-variant-numeric: tabular-nums;
+}
+
+.rank.gold,
+.rank.silver,
+.rank.bronze {
+  color: #fff;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.2);
+}
+
+.rank.gold {
+  background: linear-gradient(135deg, #f7d774, #d4a017);
+}
+
+.rank.silver {
+  background: linear-gradient(135deg, #e3e3e3, #a3a3a3);
+}
+
+.rank.bronze {
+  background: linear-gradient(135deg, #e8b48a, #b0703e);
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  margin: 0 20rpx;
+}
+
+.name-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 30rpx;
+}
+
+.me-tag {
+  flex: none;
+  margin-left: 12rpx;
+  padding: 0 10rpx;
+  border-radius: 6rpx;
+  font-size: 20rpx;
+  line-height: 32rpx;
+  color: #fff;
+  background: #d9822b;
+}
+
+.value {
+  flex: none;
+  text-align: right;
+}
+
+.value-main {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.value-sub {
+  font-size: 22rpx;
+  color: #a08c6c;
+}
+
+/* 底部固定的"我的名次" */
+.mine {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  padding: 24rpx 40rpx calc(24rpx + env(safe-area-inset-bottom));
+  color: #f5efe6;
+  background: #3b2a1a;
+  box-shadow: 0 -8rpx 24rpx rgba(0, 0, 0, 0.15);
+}
+
+.mine-label {
+  flex: none;
+  font-size: 24rpx;
+  color: #c9b391;
+}
+
+.mine-rank {
+  flex: none;
+  margin-left: 24rpx;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.mine-rank.none {
+  font-size: 30rpx;
+  color: #c9b391;
+}
+
+.mine-info {
+  flex: 1;
+  margin-left: 24rpx;
+  min-width: 0;
+  text-align: right;
+}
+
+.mine-value {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.mine-note {
+  font-size: 22rpx;
+  color: #c9b391;
+}

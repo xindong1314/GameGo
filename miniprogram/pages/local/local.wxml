@@ -1,0 +1,61 @@
+<view class="page">
+  <view class="ui-card head">
+    <view class="head-text">
+      <view class="title">本地对弈</view>
+      <view class="subtitle">两人共用一台手机，轮流落子</view>
+    </view>
+    <view class="head-stones">
+      <view class="mini b"></view>
+      <view class="mini w"></view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">棋盘路数</view>
+    <view class="ui-seg">
+      <view
+        wx:for="{{sizes}}"
+        wx:for-item="n"
+        wx:key="*this"
+        class="ui-seg-item {{n === size ? 'active' : ''}}"
+        data-size="{{n}}"
+        bindtap="onPickSize"
+      >{{n}} 路</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">贴目</view>
+    <view class="komi-box">
+      <text class="komi-label">黑贴</text>
+      <input
+        class="komi-input"
+        type="digit"
+        value="{{komi}}"
+        maxlength="6"
+        placeholder="7.5"
+        placeholder-class="komi-placeholder"
+        bindinput="onKomiInput"
+      />
+      <text class="komi-unit">目</text>
+    </view>
+    <view class="ui-seg presets">
+      <view
+        wx:for="{{komiPresets}}"
+        wx:key="value"
+        class="ui-seg-item {{item.value === komi ? 'active' : ''}}"
+        data-komi="{{item.value}}"
+        bindtap="onPickKomi"
+      >
+        <view>{{item.value}}</view>
+        <view class="seg-sub">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="note">按中国规则数子：双方都停一手后进入数子阶段，点选死棋后确认结果，白方点数含贴目。可以悔棋；本地对局不联网，也不计入排行榜。</view>
+
+  <view class="footer">
+    <button class="btn primary big" bindtap="onStart">开始对局</button>
+  </view>
+</view>

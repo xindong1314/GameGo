@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+/* 正方形画布：占满屏宽，大屏上最大 560px，水平居中；底色与棋盘木色一致，画布就绪前不闪白 */
+.goboard {
+  display: block;
+  width: 100vw;
+  height: 100vw;
+  max-width: 560px;
+  max-height: 560px;
+  margin: 0 auto;
+  background-color: #e3b96b;
+}

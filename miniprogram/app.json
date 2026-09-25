@@ -1,0 +1,26 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/local/local",
+    "pages/game/game",
+    "pages/profile/profile",
+    "pages/match/match",
+    "pages/room/room",
+    "pages/ai/ai",
+    "pages/play/play",
+    "pages/replay/replay",
+    "pages/leaderboard/leaderboard",
+    "pages/me/me"
+  ],
+  "window": {
+    "backgroundColor": "#f5efe6",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#3b2a1a",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "围棋对弈"
+  },
+  "usingComponents": {
+    "avatar": "/components/avatar/avatar"
+  },
+  "sitemapLocation": "sitemap.json"
+}

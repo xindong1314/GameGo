@@ -1,0 +1,92 @@
+<view class="page">
+  <!-- 个人信息 -->
+  <block wx:if="{{state === 'ok'}}">
+    <view class="header" bindtap="onEditProfile" hover-class="header-hover">
+      <avatar src="{{user.avatarUrl}}" name="{{user.nickname}}" size="{{120}}" />
+      <view class="header-text">
+        <view class="nickname">{{user.nickname || '未设置昵称'}}</view>
+        <view class="edit">{{needProfile ? '设置头像和昵称 ›' : '编辑头像昵称 ›'}}</view>
+      </view>
+    </view>
+
+    <view
+      wx:for="{{activeIds}}"
+      wx:key="*this"
+      class="active"
+      data-id="{{item}}"
+      bindtap="onActiveTap"
+      hover-class="active-hover"
+    >你有一局对局正在进行，点击返回 ›</view>
+
+    <view class="section-title">排位战绩</view>
+    <view class="ui-card stats">
+      <view class="stat {{index > 0 ? 'sep' : ''}}" wx:for="{{statCards}}" wx:key="key">
+        <view class="stat-value">{{item.value}}</view>
+        <view class="stat-label">{{item.label}}</view>
+      </view>
+    </view>
+    <view class="stats-detail">{{statsDetail}}</view>
+
+    <view class="section-title">人机战绩</view>
+    <view class="ui-card ai-card">
+      <view class="ai-avatar">AI</view>
+      <view class="ai-text">{{aiText}}</view>
+    </view>
+  </block>
+
+  <view class="ui-tip" wx:elif="{{state === 'loading'}}">加载中…</view>
+
+  <view class="ui-empty" wx:else>
+    <view class="ui-empty-text">{{errorText}}</view>
+    <button class="btn ui-empty-btn" bindtap="onRetryMe">重试</button>
+  </view>
+
+  <!-- 对局记录 -->
+  <view class="section-title">对局记录</view>
+
+  <view class="ui-tip" wx:if="{{listState === 'loading'}}">加载中…</view>
+
+  <view class="ui-empty" wx:elif="{{listState === 'error'}}">
+    <view class="ui-empty-text">{{listError}}</view>
+    <button class="btn ui-empty-btn" bindtap="onRetryGames">重试</button>
+  </view>
+
+  <view class="ui-empty" wx:elif="{{listState === 'empty'}}">
+    <view class="ui-empty-text">还没有下完的对局，下完一盘就会出现在这里</view>
+  </view>
+
+  <block wx:else>
+    <view class="list">
+      <view
+        wx:for="{{games}}"
+        wx:key="id"
+        class="game"
+        data-id="{{item.id}}"
+        bindtap="onGameTap"
+        hover-class="game-hover"
+      >
+        <view class="badge {{item.badgeCls}}">{{item.badge}}</view>
+        <view wx:if="{{item.isAi}}" class="ai-avatar small">AI</view>
+        <avatar wx:else src="{{item.opponentAvatar}}" name="{{item.opponentName}}" size="{{64}}" />
+        <view class="game-main">
+          <view class="opp">{{item.opponentName}}</view>
+          <view class="meta">{{item.meta}}{{item.detail ? ' · ' + item.detail : ''}}</view>
+        </view>
+        <view class="game-side">
+          <view class="result {{item.resultCls}}">{{item.resultText}}</view>
+          <view class="date">{{item.dateText}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="more">
+      <text wx:if="{{loadingMore}}">加载中…</text>
+      <text wx:elif="{{loadMoreFailed}}" class="more-retry" bindtap="onLoadMore">加载失败，点击重试</text>
+      <text wx:elif="{{noMore}}">没有更多了</text>
+      <text wx:else class="more-retry" bindtap="onLoadMore">加载更多</text>
+    </view>
+  </block>
+
+  <!-- 注销本机的登录凭证并换一个新的（账号不变） -->
+  <view wx:if="{{state === 'ok'}}" class="relogin" bindtap="onRelogin" hover-class="relogin-hover">重新登录</view>
+</view>

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "对局",
+  "usingComponents": {
+    "goboard": "/components/goboard/goboard",
+    "avatar": "/components/avatar/avatar"
+  }
+}

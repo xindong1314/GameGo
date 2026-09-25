@@ -1,0 +1,75 @@
+<view class="page">
+  <view class="section">
+    <view class="section-title">棋盘路数</view>
+    <view class="ui-seg">
+      <view
+        wx:for="{{sizes}}"
+        wx:for-item="n"
+        wx:key="*this"
+        class="ui-seg-item {{n === size ? 'active' : ''}}"
+        data-size="{{n}}"
+        bindtap="onPickSize"
+      >{{n}} 路</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">难度</view>
+
+    <view class="ui-tip" wx:if="{{state === 'loading'}}">正在加载难度…</view>
+
+    <view class="ui-empty" wx:elif="{{state === 'error'}}">
+      <view class="ui-empty-text">{{errorText}}</view>
+      <button class="btn ui-empty-btn" bindtap="onRetry">重试</button>
+    </view>
+
+    <block wx:else>
+      <view class="unavailable" wx:if="{{state === 'unavailable'}}">
+        <view>AI 暂不可用：服务器尚未启用 AI 引擎，请稍后再试。</view>
+        <view class="link" bindtap="onRetry">刷新</view>
+      </view>
+      <view class="levels {{state === 'unavailable' ? 'disabled' : ''}}">
+        <view
+          wx:for="{{levels}}"
+          wx:key="id"
+          class="level {{state === 'ok' && item.id === levelId ? 'active' : ''}}"
+          data-id="{{item.id}}"
+          bindtap="onPickLevel"
+        >
+          <view class="level-main">
+            <view class="level-name">{{item.name}}</view>
+            <view class="level-desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+          </view>
+          <view class="level-check">{{state === 'ok' && item.id === levelId ? '✓' : ''}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="section">
+    <view class="section-title">执子</view>
+    <view class="ui-seg">
+      <view
+        wx:for="{{colors}}"
+        wx:key="id"
+        class="ui-seg-item {{item.id === color ? 'active' : ''}}"
+        data-color="{{item.id}}"
+        bindtap="onPickColor"
+      >
+        <view>{{item.name}}</view>
+        <view class="seg-sub">{{item.desc}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="note">人机对局贴目 7.5、不计时、可悔棋，不计入排行榜；中途离开后可从首页回到这盘棋。</view>
+
+  <view class="footer">
+    <button
+      class="btn primary big"
+      bindtap="onStart"
+      disabled="{{state !== 'ok' || !levelId || starting}}"
+      loading="{{starting}}"
+    >开始对局</button>
+  </view>
+</view>

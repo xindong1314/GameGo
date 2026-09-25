@@ -1,0 +1,73 @@
+<view class="page">
+  <!-- 双方：执子、提子数；对局中高亮轮到的一方 -->
+  <view class="players">
+    <view wx:for="{{players}}" wx:key="color" class="player {{item.active ? 'active' : ''}}">
+      <view class="stone stone-{{item.color}}"></view>
+      <view class="meta">
+        <view class="name">{{item.name}}</view>
+        <view class="caps">提子 {{item.captures}}</view>
+      </view>
+      <view wx:if="{{item.active}}" class="turn">落子</view>
+    </view>
+  </view>
+
+  <view class="info-bar">
+    <text>{{size}} 路 · 黑贴 {{komiLabel}} 目</text>
+    <text>{{moveText}}</text>
+  </view>
+
+  <goboard
+    size="{{size}}"
+    cells="{{cells}}"
+    lastIdx="{{lastIdx}}"
+    preview="{{preview}}"
+    marks="{{marks}}"
+    disabled="{{boardDisabled}}"
+    bind:pick="onPick"
+    bind:tap="onBoardTap"
+  />
+
+  <view wx:if="{{status !== 'ended'}}" class="status-line {{hint ? 'hint' : ''}}">{{hint || statusText}}</view>
+
+  <!-- 对局中 -->
+  <view wx:if="{{status === 'playing'}}" class="actions ui-btn-row">
+    <button class="btn primary" disabled="{{!canConfirm}}" bindtap="onConfirm">确定</button>
+    <button class="btn" bindtap="onPass">停一手</button>
+    <button class="btn" disabled="{{!canUndo}}" bindtap="onUndo">悔棋</button>
+    <button class="btn danger" bindtap="onResign">认输</button>
+  </view>
+
+  <!-- 数子阶段：点棋子标记死棋，点数随标记实时变化 -->
+  <block wx:elif="{{status === 'scoring' && score}}">
+    <view class="card">
+      <view class="card-title">数子</view>
+      <view class="score-line">
+        <view class="score-item"><view class="stone stone-1"></view><text>黑 {{score.blackText}}</text></view>
+        <view class="score-item"><view class="stone stone-2"></view><text>白 {{score.whiteText}}</text></view>
+      </view>
+      <view class="lead">{{score.leadText}}</view>
+      <view wx:if="{{score.komiText}}" class="komi">{{score.komiText}}</view>
+    </view>
+    <view class="actions ui-btn-row">
+      <button class="btn primary" bindtap="onAcceptScore">确认结果</button>
+      <button class="btn" bindtap="onResumeScore">继续对局</button>
+      <button class="btn" disabled="{{!canUndo}}" bindtap="onUndo">悔棋</button>
+    </view>
+  </block>
+
+  <!-- 终局 -->
+  <view wx:elif="{{status === 'ended' && end}}" class="card end">
+    <view class="end-head">
+      <view wx:if="{{end.winner}}" class="stone big stone-{{end.winner}}"></view>
+      <text class="end-title">{{end.title}}</text>
+      <text wx:if="{{end.marginText}}" class="end-margin">{{end.marginText}}</text>
+    </view>
+    <view wx:if="{{end.detail}}" class="end-detail">{{end.detail}}</view>
+    <view wx:if="{{end.komiText}}" class="komi">{{end.komiText}}</view>
+    <view class="end-actions ui-btn-row">
+      <button class="btn" disabled="{{!canUndo}}" bindtap="onUndo">悔棋</button>
+      <button class="btn primary" bindtap="onRestart">再来一局</button>
+      <button class="btn" bindtap="onBack">返回</button>
+    </view>
+  </view>
+</view>

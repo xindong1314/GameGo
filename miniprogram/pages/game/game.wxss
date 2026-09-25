@@ -1,0 +1,194 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+/* ---------- 双方信息 ---------- */
+.players {
+  display: flex;
+  padding: 16rpx 24rpx 0;
+}
+
+/* 间距用 margin 而不是 flex 的 gap：gap 需要 iOS 14.5+ 的 WebView */
+.player + .player {
+  margin-left: 16rpx;
+}
+
+.player {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 14rpx 20rpx;
+  border-radius: 16rpx;
+  background: #fff;
+  border: 2rpx solid #e6dccb;
+}
+
+.player.active {
+  border-color: #3b2a1a;
+  box-shadow: 0 0 0 2rpx #3b2a1a inset;
+}
+
+.meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-size: 30rpx;
+  font-weight: bold;
+  line-height: 40rpx;
+}
+
+.caps {
+  font-size: 24rpx;
+  line-height: 34rpx;
+  color: #7a6248;
+}
+
+.turn {
+  flex: none;
+  margin-left: 8rpx;
+  padding: 0 14rpx;
+  font-size: 22rpx;
+  line-height: 38rpx;
+  border-radius: 20rpx;
+  color: #fff;
+  background: #3b2a1a;
+}
+
+/* 棋子小图标 */
+.stone {
+  flex: none;
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 16rpx;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.stone-1 {
+  background: radial-gradient(circle at 32% 30%, #6b6b6b, #111 60%);
+}
+
+.stone-2 {
+  background: radial-gradient(circle at 32% 30%, #fff, #e4dfd6 70%);
+  border: 2rpx solid #8c7a62;
+}
+
+.info-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12rpx 28rpx;
+  font-size: 24rpx;
+  color: #7a6248;
+}
+
+/* ---------- 状态行与按钮 ---------- */
+.status-line {
+  min-height: 48rpx;
+  line-height: 48rpx;
+  padding: 8rpx 24rpx 4rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #7a6248;
+}
+
+.status-line.hint {
+  color: #b3261e;
+}
+
+.actions {
+  padding: 8rpx 24rpx 0;
+}
+
+/* ---------- 数子与终局卡片 ---------- */
+.card {
+  margin: 8rpx 24rpx 16rpx;
+  padding: 24rpx 28rpx;
+  border-radius: 16rpx;
+  background: #fff;
+  border: 2rpx solid #e6dccb;
+}
+
+.card-title {
+  margin-bottom: 12rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.score-line {
+  display: flex;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.score-item {
+  display: flex;
+  align-items: center;
+}
+
+.score-item + .score-item {
+  margin-left: 48rpx;
+}
+
+.score-item .stone {
+  width: 28rpx;
+  height: 28rpx;
+  margin-right: 10rpx;
+}
+
+.lead {
+  margin-top: 8rpx;
+  font-size: 28rpx;
+}
+
+/* 数子法：白方点数含贴目的说明 */
+.komi {
+  margin-top: 4rpx;
+  font-size: 22rpx;
+  color: #9a8a74;
+}
+
+.end {
+  margin-top: 16rpx;
+  text-align: center;
+}
+
+.end-head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stone.big {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.end-title {
+  font-size: 48rpx;
+  font-weight: bold;
+}
+
+.end-margin {
+  margin-left: 16rpx;
+  font-size: 32rpx;
+  color: #b8860b;
+  font-weight: bold;
+}
+
+.end-detail {
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  color: #7a6248;
+}
+
+.end-actions {
+  margin-top: 24rpx;
+}

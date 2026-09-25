@@ -1,0 +1,22 @@
+{
+  "name": "gamego-server",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "author": "xindong1314",
+  "description": "围棋小程序服务端：登录、匹配、好友房、联网对局、KataGo 人机、排行榜",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/index.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch src/index.js",
+    "test": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 \"test/**/*.test.js\"",
+    "test:core": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 \"test/core/*.test.js\"",
+    "test:integration": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 \"test/integration/*.test.js\""
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "dependencies": {
+    "ws": "^8.21.3"
+  }
+}

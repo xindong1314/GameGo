@@ -1,0 +1,240 @@
+.page {
+  padding: 32rpx 32rpx calc(40rpx + env(safe-area-inset-bottom));
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+  border-radius: 24rpx;
+  color: #f5efe6;
+  background: #3b2a1a;
+}
+
+.header-hover {
+  opacity: 0.9;
+}
+
+.header-text {
+  flex: 1;
+  min-width: 0;
+  margin-left: 28rpx; /* 与头像的间距（不用 flex 的 gap：需要 iOS 14.5+） */
+}
+
+.nickname {
+  font-size: 40rpx;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.edit {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #c9b391;
+}
+
+.active {
+  margin-top: 20rpx;
+  padding: 24rpx 28rpx;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  background: #fff7e6;
+  border: 2rpx solid #e8c98f;
+}
+
+.active-hover {
+  background: #fcebc9;
+}
+
+.section-title {
+  margin: 40rpx 0 16rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.stats {
+  display: flex;
+  padding: 28rpx 0;
+  margin-bottom: 0;
+}
+
+.stat {
+  flex: 1;
+  text-align: center;
+}
+
+.stat.sep {
+  border-left: 1rpx solid #f0e8dc;
+}
+
+.stat-value {
+  font-size: 40rpx;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #7a6248;
+}
+
+.stats-detail {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: #a08c6c;
+}
+
+.ai-card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.ai-avatar {
+  flex: none;
+  width: 72rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #e3b96b;
+  background: #3b2a1a;
+}
+
+.ai-avatar.small {
+  width: 64rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  font-size: 22rpx;
+}
+
+.ai-text {
+  margin-left: 24rpx;
+  font-size: 28rpx;
+}
+
+.list {
+  border-radius: 20rpx;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 8rpx 24rpx rgba(59, 42, 26, 0.08);
+}
+
+.game {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 28rpx;
+  border-bottom: 1rpx solid #f0e8dc;
+}
+
+.game-hover {
+  background: #f9f3ea;
+}
+
+.badge {
+  flex: none;
+  margin-right: 20rpx;
+  width: 64rpx;
+  padding: 4rpx 0;
+  border-radius: 8rpx;
+  text-align: center;
+  font-size: 20rpx;
+  color: #fff;
+  background: #a08c6c;
+}
+
+.badge.ranked {
+  background: #b5651d;
+}
+
+.badge.friend {
+  background: #3f7d58;
+}
+
+.badge.ai {
+  background: #4a5d8c;
+}
+
+.game-main {
+  flex: 1;
+  min-width: 0;
+  margin: 0 20rpx;
+}
+
+.opp {
+  font-size: 30rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  margin-top: 4rpx;
+  font-size: 22rpx;
+  color: #a08c6c;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.game-side {
+  flex: none;
+  text-align: right;
+}
+
+.result {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.result.win {
+  color: #b3261e;
+}
+
+.result.loss {
+  color: #3b6ea5;
+}
+
+.result.draw {
+  color: #7a6248;
+}
+
+.result.void {
+  font-size: 26rpx;
+  color: #a0a0a0;
+}
+
+.date {
+  margin-top: 4rpx;
+  font-size: 22rpx;
+  color: #a08c6c;
+}
+
+.more {
+  padding: 32rpx 0 8rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #a08c6c;
+}
+
+.more-retry {
+  color: #2a6fb0;
+}
+
+.relogin {
+  margin: 48rpx auto 0;
+  width: 240rpx;
+  padding: 16rpx 0;
+  text-align: center;
+  font-size: 24rpx;
+  color: #a08c6c;
+}
+
+.relogin-hover {
+  opacity: 0.6;
+}

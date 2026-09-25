@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+server/node_modules/
+server/data/
+server/.env
+server/katago/*
+!server/katago/analysis.cfg
+project.private.config.json

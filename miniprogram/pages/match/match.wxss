@@ -1,0 +1,146 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100rpx 48rpx 40rpx;
+}
+
+/* 等待动画：两圈波纹 + 一黑一白两子绕中心旋转 */
+.radar {
+  position: relative;
+  width: 320rpx;
+  height: 320rpx;
+  margin-bottom: 56rpx;
+}
+
+.ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320rpx;
+  height: 320rpx;
+  border-radius: 50%;
+  border: 2rpx solid #c9b391;
+  box-sizing: border-box;
+  opacity: 0;
+}
+
+.radar.spin .ring {
+  animation: ripple 2.4s ease-out infinite;
+}
+
+.radar.spin .r2 {
+  animation-delay: 1.2s;
+}
+
+@keyframes ripple {
+  0% { transform: scale(0.45); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+.orbit {
+  position: absolute;
+  top: 60rpx;
+  left: 60rpx;
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.radar.spin .orbit {
+  animation: rotate 2.8s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.dot {
+  position: absolute;
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.35);
+}
+
+.dot.b {
+  top: -22rpx;
+  left: 78rpx;
+  background: radial-gradient(circle at 32% 30%, #6b6b6b, #111 60%);
+}
+
+.dot.w {
+  bottom: -22rpx;
+  left: 78rpx;
+  background: radial-gradient(circle at 32% 30%, #fff, #d9d4cc 70%);
+}
+
+.core {
+  position: absolute;
+  top: 100rpx;
+  left: 100rpx;
+  width: 120rpx;
+  height: 120rpx;
+  line-height: 120rpx;
+  border-radius: 50%;
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+  background: #3b2a1a;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: bold;
+}
+
+.elapsed {
+  margin-top: 16rpx;
+  font-size: 30rpx;
+  color: #7a6248;
+  font-variant-numeric: tabular-nums;
+}
+
+.error {
+  margin-top: 16rpx;
+  color: #b3261e;
+  text-align: center;
+}
+
+.tip {
+  margin-top: 24rpx;
+  font-size: 24rpx;
+  color: #a08c6c;
+}
+
+.action {
+  width: 360rpx;
+  margin-top: 40rpx;
+}
+
+.ai-hint {
+  align-self: stretch;
+  margin-top: 56rpx;
+  text-align: center;
+}
+
+.ai-hint-text {
+  font-size: 28rpx;
+}
+
+.ai-hint-btn {
+  margin-top: 24rpx;
+}
+
+.footer {
+  padding: 24rpx 48rpx 48rpx;
+}

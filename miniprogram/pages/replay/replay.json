@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "复盘",
+  "usingComponents": {
+    "goboard": "/components/goboard/goboard",
+    "avatar": "/components/avatar/avatar"
+  }
+}

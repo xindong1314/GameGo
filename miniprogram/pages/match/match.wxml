@@ -1,0 +1,37 @@
+<view class="page">
+  <view class="ui-netbar" wx:if="{{netStatus === 'closed' || netStatus === 'connecting'}}">连接中断，正在重连…</view>
+
+  <view class="center">
+    <view class="radar {{status === 'waiting' || status === 'joining' ? 'spin' : ''}}">
+      <view class="ring r1"></view>
+      <view class="ring r2"></view>
+      <view class="orbit">
+        <view class="dot b"></view>
+        <view class="dot w"></view>
+      </view>
+      <view class="core">{{size}}路</view>
+    </view>
+
+    <view class="title" wx:if="{{status === 'joining'}}">正在加入匹配…</view>
+    <view class="title" wx:elif="{{status === 'waiting'}}">正在寻找 {{size}} 路对手</view>
+    <view class="title" wx:elif="{{status === 'matched'}}">匹配成功，正在进入对局</view>
+    <view class="title" wx:elif="{{status === 'error'}}">加入匹配失败</view>
+    <view class="title" wx:else>匹配已停止</view>
+
+    <view class="elapsed" wx:if="{{status === 'waiting' || status === 'joining'}}">已等待 {{elapsedText}}</view>
+    <view class="error" wx:if="{{status === 'error'}}">{{errorText}}</view>
+    <view class="tip">排位赛 · 黑白随机 · 结果计入排行榜</view>
+
+    <button class="btn primary action" wx:if="{{status === 'error'}}" bindtap="onRetry">重试</button>
+    <button class="btn primary action" wx:if="{{status === 'matched'}}" bindtap="openGame">进入对局</button>
+
+    <view class="ui-card ai-hint" wx:if="{{showAiHint && (status === 'waiting' || status === 'joining' || status === 'error')}}">
+      <view class="ai-hint-text">等待有点久了，可以先和 AI 下一盘</view>
+      <button class="btn ai-hint-btn" bindtap="onSwitchAi">改为人机对弈</button>
+    </view>
+  </view>
+
+  <view class="footer" wx:if="{{status !== 'matched'}}">
+    <button class="btn" bindtap="onCancel">{{status === 'stopped' ? '返回' : '取消匹配'}}</button>
+  </view>
+</view>

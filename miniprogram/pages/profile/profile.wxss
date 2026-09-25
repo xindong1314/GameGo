@@ -1,0 +1,124 @@
+.page {
+  padding: 48rpx 40rpx calc(48rpx + env(safe-area-inset-bottom));
+}
+
+.intro {
+  margin-bottom: 36rpx;
+}
+
+.intro-title {
+  font-size: 44rpx;
+  font-weight: bold;
+}
+
+.intro-desc {
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: #7a6248;
+}
+
+.privacy-text {
+  font-size: 26rpx;
+  line-height: 1.6;
+}
+
+.link {
+  color: #2a6fb0;
+}
+
+.privacy-btn {
+  margin-top: 24rpx;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 去掉 button 默认样式，只保留头像 */
+.avatar-btn {
+  position: relative;
+  width: 168rpx;
+  height: 168rpx;
+  margin: 12rpx auto 0;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+  line-height: normal;
+  overflow: visible;
+}
+
+.avatar-btn::after {
+  border: none;
+}
+
+.avatar-hover {
+  opacity: 0.8;
+}
+
+.avatar-badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 48rpx;
+  height: 48rpx;
+  line-height: 48rpx;
+  border-radius: 50%;
+  font-size: 22rpx;
+  text-align: center;
+  color: #fff;
+  background: #3b2a1a;
+  border: 4rpx solid #fff;
+}
+
+.avatar-tip {
+  margin-top: 20rpx;
+  font-size: 24rpx;
+  color: #7a6248;
+}
+
+.field {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  margin-top: 40rpx;
+  padding: 0 24rpx;
+  height: 96rpx;
+  border: 2rpx solid #c9b391;
+  border-radius: 12rpx;
+  background: #fff;
+}
+
+.field-label {
+  flex: none;
+  color: #7a6248;
+}
+
+.field-input {
+  flex: 1;
+  margin: 0 20rpx; /* 与标签、字数的间距（不用 flex 的 gap：需要 iOS 14.5+） */
+  height: 96rpx;
+  font-size: 32rpx;
+}
+
+.field-placeholder {
+  color: #b9a88c;
+}
+
+.field-count {
+  flex: none;
+  font-size: 22rpx;
+  color: #a08c6c;
+}
+
+.field-count.over {
+  color: #b3261e;
+}
+
+.save {
+  margin-top: 56rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  font-size: 34rpx;
+}

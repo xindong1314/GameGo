@@ -1,0 +1,122 @@
+<!-- 棋手信息条：头像（在线点）、执子、昵称、提子、读秒 -->
+<template name="player">
+  <view class="player {{active ? 'active' : ''}}">
+    <view class="avatar-box">
+      <avatar src="{{avatarUrl}}" name="{{nickname}}" size="{{72}}" />
+      <view wx:if="{{!isAi}}" class="presence {{online ? 'on' : 'off'}}"></view>
+    </view>
+    <view class="meta">
+      <view class="name-line">
+        <view class="stone stone-{{color}}"></view>
+        <text class="name">{{nickname}}</text>
+        <text wx:if="{{isMe}}" class="tag">我</text>
+        <text wx:if="{{isAi}}" class="tag ai">AI</text>
+      </view>
+      <view class="sub-line">
+        <text>提子 {{captures}}</text>
+        <text wx:if="{{!online}}" class="offline">离线</text>
+        <text wx:if="{{thinking}}" class="thinking">思考中…</text>
+      </view>
+    </view>
+    <view wx:if="{{clock}}" class="clock {{clock.urgent ? 'urgent' : ''}} {{active ? 'running' : ''}}">
+      <text class="clock-main">{{clock.text}}</text>
+      <text wx:if="{{clock.sub}}" class="clock-sub">{{clock.sub}}</text>
+    </view>
+  </view>
+</template>
+
+<view class="page">
+  <view wx:if="{{banner}}" class="banner" bindtap="onBannerTap">{{banner}}</view>
+
+  <view wx:if="{{loadError}}" class="state-box">
+    <view class="state-text">{{loadError}}</view>
+    <view class="state-actions">
+      <button class="btn primary" bindtap="onRetry">重试</button>
+      <button class="btn" bindtap="onHome">返回首页</button>
+    </view>
+  </view>
+
+  <view wx:elif="{{!loaded}}" class="state-box">
+    <view class="state-text muted">正在进入对局…</view>
+  </view>
+
+  <block wx:else>
+    <view class="info-bar">
+      <text class="info">{{infoText}}</text>
+      <text class="move-no">{{moveText}}</text>
+    </view>
+
+    <template is="player" data="{{...top}}" />
+
+    <goboard
+      size="{{size}}"
+      cells="{{cells}}"
+      lastIdx="{{lastIdx}}"
+      preview="{{preview}}"
+      marks="{{marks}}"
+      disabled="{{boardDisabled}}"
+      bind:pick="onPick"
+      bind:tap="onBoardTap"
+    />
+
+    <template is="player" data="{{...bottom}}" />
+
+    <view wx:if="{{hint || statusText}}" class="status-line {{hint ? 'error' : ''}}">{{hint || statusText}}</view>
+
+    <!-- 对局中 -->
+    <view wx:if="{{phase === 'playing'}}" class="actions ui-btn-row">
+      <button class="btn primary" disabled="{{!btn.confirm}}" bindtap="onConfirm">确定</button>
+      <button class="btn" disabled="{{!btn.pass}}" bindtap="onPass">停一手</button>
+      <button wx:if="{{btn.showUndo}}" class="btn" disabled="{{!btn.undo}}" bindtap="onUndo">悔棋</button>
+      <button class="btn danger" disabled="{{!btn.resign}}" bindtap="onResign">认输</button>
+    </view>
+
+    <!-- 数子阶段 -->
+    <block wx:elif="{{phase === 'scoring'}}">
+      <view class="card scoring">
+        <view class="card-head">
+          <text class="card-title">数子</text>
+          <text wx:if="{{scoring.deadlineText}}" class="deadline">{{scoring.deadlineText}}</text>
+        </view>
+        <view wx:if="{{scoring.pending}}" class="tip">{{scoring.tip}}</view>
+        <block wx:else>
+          <view class="score-line">
+            <view class="score-item"><view class="stone stone-1"></view><text>黑 {{scoring.blackText}}</text></view>
+            <view class="score-item"><view class="stone stone-2"></view><text>白 {{scoring.whiteText}}</text></view>
+          </view>
+          <view class="lead">{{scoring.leadText}}</view>
+          <view wx:if="{{scoring.komiText}}" class="komi">{{scoring.komiText}}</view>
+          <view class="accept-line">
+            <text class="{{scoring.meAccepted ? 'ok' : ''}}">你：{{scoring.meAcceptText}}</text>
+            <text class="{{scoring.oppAccepted ? 'ok' : ''}}">对手：{{scoring.oppAcceptText}}</text>
+          </view>
+          <view class="tip">{{scoring.tip}}</view>
+        </block>
+        <!-- "继续对局"不可用的原因、时限到时的计分规则 -->
+        <view wx:for="{{scoring.notes}}" wx:key="*this" class="note">{{item}}</view>
+      </view>
+      <view class="actions ui-btn-row">
+        <button class="btn primary" disabled="{{!btn.accept}}" bindtap="onAccept">{{scoring.acceptText}}</button>
+        <button class="btn" disabled="{{!btn.resume}}" bindtap="onResume">继续对局</button>
+        <button wx:if="{{btn.showUndo}}" class="btn" disabled="{{!btn.undo}}" bindtap="onUndo">悔棋</button>
+        <button class="btn danger" disabled="{{!btn.resign}}" bindtap="onResign">认输</button>
+      </view>
+    </block>
+
+    <!-- 终局 -->
+    <view wx:elif="{{phase === 'ended' && end}}" id="end-card" class="card end">
+      <view class="end-title {{end.tone}}">{{end.title}}</view>
+      <view class="end-label">{{end.label}}</view>
+      <view wx:if="{{end.scoreText}}" class="end-score">{{end.scoreText}}</view>
+      <view wx:if="{{end.komiText}}" class="komi">{{end.komiText}}</view>
+      <view class="end-lines">
+        <view wx:for="{{end.lines}}" wx:key="*this" class="end-line">{{item}}</view>
+      </view>
+      <view class="end-actions ui-btn-row">
+        <button class="btn" bindtap="onReplay">复盘</button>
+        <button wx:if="{{end.showAgain}}" class="btn primary" disabled="{{!btn.again}}" bindtap="onAgain">再来一局</button>
+        <button class="btn" bindtap="onHome">返回首页</button>
+      </view>
+    </view>
+  </block>
+</view>

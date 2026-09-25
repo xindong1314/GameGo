@@ -1,0 +1,56 @@
+<view class="page">
+  <view class="intro">
+    <view class="intro-title">{{firstTime ? '设置你的头像和昵称' : '修改头像和昵称'}}</view>
+    <view class="intro-desc">{{firstTime ? '联网对弈前需要先设置，对手和排行榜会看到它们' : '保存后，对手和排行榜会显示新的头像昵称'}}</view>
+  </view>
+
+  <view class="ui-card privacy" wx:if="{{needPrivacy}}">
+    <view class="privacy-text">
+      使用微信头像和昵称前，请阅读并同意<text class="link" catchtap="onOpenPrivacy">{{privacyName}}</text>
+    </view>
+    <button
+      class="btn primary privacy-btn"
+      open-type="agreePrivacyAuthorization"
+      bindagreeprivacyauthorization="onAgreePrivacy"
+    >同意并继续</button>
+  </view>
+
+  <view class="ui-empty" wx:if="{{loadError}}">
+    <view class="ui-empty-text">{{loadError}}</view>
+    <button class="btn ui-empty-btn" bindtap="onRetry">重试</button>
+  </view>
+
+  <form wx:else bindsubmit="onSubmit">
+    <view class="ui-card form">
+      <button
+        class="avatar-btn"
+        open-type="chooseAvatar"
+        bindchooseavatar="onChooseAvatar"
+        hover-class="avatar-hover"
+      >
+        <avatar src="{{avatarSrc}}" name="{{nickname}}" size="{{168}}" />
+        <view class="avatar-badge">换</view>
+      </button>
+      <view class="avatar-tip">点击头像，可使用微信头像或从相册选择</view>
+
+      <view class="field">
+        <view class="field-label">昵称</view>
+        <input
+          class="field-input"
+          type="nickname"
+          name="nickname"
+          value="{{nickname}}"
+          placeholder="点击输入，或选用微信昵称"
+          placeholder-class="field-placeholder"
+          bindinput="onNicknameInput"
+          bindblur="onNicknameBlur"
+          bindconfirm="onNicknameBlur"
+          bindnicknamereview="onNicknameReview"
+        />
+        <view class="field-count {{count > max ? 'over' : ''}}">{{count}}/{{max}}</view>
+      </view>
+    </view>
+
+    <button class="btn primary save" form-type="submit" disabled="{{saving || !ready}}" loading="{{saving}}">{{ready ? '保存' : '登录中…'}}</button>
+  </form>
+</view>

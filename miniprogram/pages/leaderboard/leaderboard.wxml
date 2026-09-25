@@ -1,0 +1,48 @@
+<view class="page">
+  <view class="tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="type"
+      class="tab {{item.type === type ? 'active' : ''}}"
+      data-type="{{item.type}}"
+      bindtap="onTab"
+    >{{item.name}}</view>
+  </view>
+  <view class="hint">{{hint}}</view>
+
+  <view class="ui-tip" wx:if="{{state === 'loading'}}">加载中…</view>
+
+  <view class="ui-empty" wx:elif="{{state === 'error'}}">
+    <view class="ui-empty-text">{{errorText}}</view>
+    <button class="btn ui-empty-btn" bindtap="onRetry">重试</button>
+  </view>
+
+  <view class="ui-empty" wx:elif="{{state === 'empty'}}">
+    <view class="ui-empty-text">还没有人上榜，去下一盘排位赛吧</view>
+    <button class="btn ui-empty-btn" bindtap="onGoHome">去快速匹配</button>
+  </view>
+
+  <view class="list" wx:else>
+    <view wx:for="{{rows}}" wx:key="key" class="row {{item.isMe ? 'me' : ''}}">
+      <view class="rank {{item.medal}}">{{item.rank}}</view>
+      <avatar src="{{item.avatarUrl}}" name="{{item.nickname}}" size="{{72}}" />
+      <view class="name">
+        <text class="name-text">{{item.nickname}}</text>
+        <text class="me-tag" wx:if="{{item.isMe}}">我</text>
+      </view>
+      <view class="value">
+        <view class="value-main">{{item.valueText}}</view>
+        <view class="value-sub" wx:if="{{item.subText}}">{{item.subText}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="mine" wx:if="{{mine}}">
+    <view class="mine-label">我的名次</view>
+    <view class="mine-rank {{mine.ranked ? '' : 'none'}}">{{mine.rankText}}</view>
+    <view class="mine-info">
+      <view class="mine-value" wx:if="{{mine.valueText}}">{{mine.valueText}}</view>
+      <view class="mine-note" wx:if="{{mine.note}}">{{mine.note}}</view>
+    </view>
+  </view>
+</view>
