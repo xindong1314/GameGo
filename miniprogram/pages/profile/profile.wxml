@@ -37,7 +37,7 @@
         <view class="field-label">昵称</view>
         <input
           class="field-input"
-          type="nickname"
+          type="{{nicknameType}}"
           name="nickname"
           value="{{nickname}}"
           placeholder="点击输入，或选用微信昵称"
@@ -49,6 +49,7 @@
         />
         <view class="field-count {{count > max ? 'over' : ''}}">{{count}}/{{max}}</view>
       </view>
+      <view class="tourist-tip" wx:if="{{touristMode}}">游客模式：微信昵称快捷填写不可用，请直接输入昵称</view>
     </view>
 
     <button class="btn primary save" form-type="submit" disabled="{{saving || !ready}}" loading="{{saving}}">{{ready ? '保存' : '登录中…'}}</button>

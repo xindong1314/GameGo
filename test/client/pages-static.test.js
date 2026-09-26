@@ -182,7 +182,8 @@ test('分享：好友房页面与首页定义了 onShareAppMessage', () => {
   assert.ok(/open-type="share"/.test(room), '等待界面有邀请好友的分享按钮');
   const profile = read('pages/profile/profile.wxml');
   assert.ok(/open-type="chooseAvatar"/.test(profile));
-  assert.ok(/type="nickname"/.test(profile));
+  // 真实 AppID 下为 type="nickname"（默认值见 profile.js 的 nicknameType），开发者工具游客模式下改为 text
+  assert.ok(/type="(nickname|\{\{nicknameType\}\})"/.test(profile));
   assert.ok(/open-type="agreePrivacyAuthorization"/.test(profile));
   assert.ok(/form-type="submit"/.test(profile));
 });

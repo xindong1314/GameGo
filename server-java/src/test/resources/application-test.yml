@@ -1,0 +1,21 @@
+# 测试配置：H2 内存数据库（MySQL 兼容模式），每个 Spring 上下文一个独立的库。
+spring:
+  datasource:
+    url: jdbc:h2:mem:gamego-${random.uuid};MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema-h2.sql
+
+gamego:
+  # 测试不定时清理令牌
+  session-purge-interval-ms: 0
+  public-base-url: https://go.example.com
+  dev-login-allow-production: true
+
+logging:
+  level:
+    com.gamego: warn

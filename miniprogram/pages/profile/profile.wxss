@@ -122,3 +122,11 @@
   line-height: 96rpx;
   font-size: 34rpx;
 }
+
+/* 游客模式提示（开发者工具 touristappid 下显示） */
+.tourist-tip {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: #9a8466;
+  line-height: 1.5;
+}

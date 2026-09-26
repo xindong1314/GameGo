@@ -66,6 +66,34 @@ test('资料页：选择头像、输入昵称、审核不通过清空', async (t
   assert.equal(page.data.nickname, '');
 });
 
+test('资料页：开发者工具游客模式用普通输入框，昵称审核结果不清空输入；真实 AppID 仍用 type="nickname"', async (t) => {
+  const tourist = setup(t);
+  tourist.env.wx.getAccountInfoSync = () => ({ miniProgram: { appId: 'touristappid' } });
+  tourist.page.onLoad({});
+  await h.flush();
+  assert.equal(tourist.page.data.touristMode, true);
+  assert.equal(tourist.page.data.nicknameType, 'text');
+  tourist.page.onNicknameBlur({ detail: { value: '棋手' } });
+  tourist.page.onNicknameReview({ detail: { pass: false, timeout: false } });
+  assert.equal(tourist.page.data.nickname, '棋手', '游客模式没有真实审核，不清空');
+  await tourist.page.onSubmit({ detail: { value: { nickname: '棋手' } } });
+  assert.equal(tourist.env.auth.user.nickname, '棋手');
+
+  const real = setup(t);
+  real.env.wx.getAccountInfoSync = () => ({ miniProgram: { appId: 'wx0123456789abcdef' } });
+  real.page.onLoad({});
+  await h.flush();
+  assert.equal(real.page.data.touristMode, false);
+  assert.equal(real.page.data.nicknameType, 'nickname');
+
+  // 旧基础库没有 getAccountInfoSync，或调用抛错：按真实 AppID 处理
+  const old = setup(t);
+  old.env.wx.getAccountInfoSync = () => { throw new Error('not supported'); };
+  old.page.onLoad({});
+  await h.flush();
+  assert.equal(old.page.data.nicknameType, 'nickname');
+});
+
 test('资料页：昵称校验失败不发请求', async (t) => {
   const { env, page } = setup(t);
   page.onLoad({});

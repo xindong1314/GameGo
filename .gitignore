@@ -6,3 +6,8 @@ server/.env
 server/katago/*
 !server/katago/analysis.cfg
 project.private.config.json
+server-java/target*/
+server-java/data/
+server-java/katago/*
+!server-java/katago/analysis.cfg
+server-java/src/main/resources/application-local.yml

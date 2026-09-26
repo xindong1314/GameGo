@@ -1,0 +1,102 @@
+# 围棋小程序服务端（Java 版）配置。
+# gamego.* 从与 Node 版 server/.env 同名的环境变量读取（PORT、PUBLIC_BASE_URL、DEV_LOGIN、WX_APPID …），
+# 工作目录下的 .env 文件（格式同 server/.env.example）也会被读取，系统环境变量优先。留空 = 使用默认值。
+# 数据库：环境变量 DB_URL / DB_USER / DB_PASSWORD（默认本机 MySQL 的 gamego 库，不存在时自动创建）。
+# 不想装 MySQL：加 --spring.profiles.active=h2 使用 H2 文件数据库（见 application-h2.yml）。
+# 实时对局（WebSocket /ws）的用时、弃局、数子时限等取自下面的 gamego.*；其余可选项见 gamego.game.*（一般不用改）。
+
+spring:
+  application:
+    name: gamego-server-java
+  config:
+    import: optional:file:./.env[.properties]
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/gamego?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:}
+  sql:
+    init:
+      # 每次启动执行建表脚本（全部是 CREATE TABLE IF NOT EXISTS，可重复执行）
+      mode: always
+      schema-locations: classpath:db/schema-mysql.sql
+      encoding: UTF-8
+  servlet:
+    multipart:
+      # 头像上传的 multipart 由应用自己解析（与 Node 版相同的大小限制与错误码），不用 Spring 的解析器
+      enabled: false
+  web:
+    resources:
+      # 没有静态资源：未知路径统一返回 404 {error:{code:'not_found'}}
+      add-mappings: false
+  jackson:
+    default-property-inclusion: always
+  lifecycle:
+    # 关机时先以 1001 关闭所有 WebSocket 连接、补写终局结果，再等 HTTP 请求处理完（最多 10 秒）
+    timeout-per-shutdown-phase: 10s
+
+server:
+  port: ${PORT:8080}
+  address: ${HOST:0.0.0.0}
+  shutdown: graceful
+  error:
+    whitelabel:
+      enabled: false
+  tomcat:
+    # 整个请求（含 2MB 头像上传）须在 60 秒内收完
+    connection-timeout: 20s
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    # 关闭会话级缓存：嵌套事务（SAVEPOINT）回滚后不会读到缓存里的旧数据
+    local-cache-scope: STATEMENT
+
+logging:
+  level:
+    com.gamego: ${LOG_LEVEL:info}
+    # 未知路径已统一返回 404 JSON，不必每次记警告
+    org.springframework.web.servlet.PageNotFound: error
+
+gamego:
+  port: ${PORT:8080}
+  host: ${HOST:0.0.0.0}
+  public-base-url: ${PUBLIC_BASE_URL:http://localhost:8080}
+  data-dir: ${DATA_DIR:./data}
+  wx:
+    app-id: ${WX_APPID:}
+    secret: ${WX_SECRET:}
+  dev-login: ${DEV_LOGIN:false}
+  dev-login-allow-production: ${DEV_LOGIN_ALLOW_PRODUCTION:false}
+  node-env: ${NODE_ENV:}
+  sec-check: ${SEC_CHECK:on}
+  katago-path: ${KATAGO_PATH:}
+  katago-model: ${KATAGO_MODEL:}
+  katago-config: ${KATAGO_CONFIG:./katago/analysis.cfg}
+  ai-fallback: ${AI_FALLBACK:false}
+  tc9: ${TC_9:}
+  tc13: ${TC_13:}
+  tc19: ${TC_19:}
+  min-moves-ranked: ${MIN_MOVES_RANKED:10}
+  ranked-pair-daily-max: ${RANKED_PAIR_DAILY_MAX:3}
+  min-games-winrate: ${MIN_GAMES_WINRATE:10}
+  # 以下与 Node 版 Config 同名，一般不用改（毫秒）
+  first-move-timeout-ms: 60000
+  abandon-ms: 90000
+  scoring-timeout-ms: 180000
+  judge-timeout-ms: 15000
+  ai-idle-timeout-ms: 86400000
+  room-ttl-ms: 1800000
+  # 实时对局的可选项（不在 Node 版 Config 契约里，默认值与 Node 版 game/settings.js 相同）：
+  # game:
+  #   arrival-grace-ms: 300000      # 开局时不在线 / 重启后没回来的玩家最多等多久（超时作废）
+  #   resume-limit: 1               # 真人对局每方每局最多"继续对局"几次
+  #   scoring-grace-ms: 60000       # 有人点选死子后自动确认时限至少顺延到多久之后
+  #   ai-move-timeout-ms: 60000     # 单次 AI 落子请求的兜底超时
+  #   ai-retry-delays-ms: 2000,5000,10000,20000
+  #   ai-max-per-user: 2            # 每个玩家同时在途的 AI 请求上限
+  #   ai-max-inflight: 16           # 全服同时在途的 AI 请求上限
+  #   ai-start-burst: 5             # ai.start 限流：突发次数 / 每隔多久恢复一次
+  #   ai-start-refill-ms: 10000
+  #   room-miss-burst: 10           # 猜房号限流
+  #   room-miss-refill-ms: 6000
+  #   ended-cache-max: 2000         # 内存里保留的刚结束对局数

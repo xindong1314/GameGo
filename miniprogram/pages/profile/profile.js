@@ -5,6 +5,19 @@ const guard = require('../../utils/guard');
 const nick = require('./nickname');
 const { isTopPage } = require('../../utils/page-stack');
 
+// 开发者工具的游客模式（appid 为 touristappid）：没有真实 AppID，微信无法对 type="nickname" 的输入做安全检测，
+// 失焦时会判为不通过并清空输入框，导致无法设置昵称。游客模式改用普通输入框（服务端仍会校验昵称）。
+function isTouristApp() {
+  try {
+    if (typeof wx.getAccountInfoSync !== 'function') return false;
+    const info = wx.getAccountInfoSync();
+    const appId = info && info.miniProgram && info.miniProgram.appId;
+    return appId === 'touristappid';
+  } catch (e) {
+    return false;
+  }
+}
+
 // 头像昵称设置。?redirect=<页面路径>：保存后 redirectTo 该页面（来自联网入口守卫）；否则返回上一页。
 Page({
   data: {
@@ -19,12 +32,15 @@ Page({
     saving: false,
     needPrivacy: false,
     privacyName: '',
+    touristMode: false,
+    nicknameType: 'nickname',
   },
 
   onLoad(query) {
     this.redirect = nick.resolveRedirect(query && query.redirect);
     this.user = null;
-    this.setData({ firstTime: !!this.redirect });
+    const tourist = isTouristApp();
+    this.setData({ firstTime: !!this.redirect, touristMode: tourist, nicknameType: tourist ? 'text' : 'nickname' });
     this.load();
     this.checkPrivacy();
   },
@@ -101,6 +117,8 @@ Page({
   // 基础库 2.29.1+：微信昵称安全审核结果；未通过时微信会清空输入框
   onNicknameReview(e) {
     const d = (e && e.detail) || {};
+    // 游客模式没有真实的安全检测结果，不据此清空
+    if (this.data.touristMode) return;
     if (d.pass === false && !d.timeout) {
       this.setNickname('');
       wx.showToast({ title: '昵称未通过微信安全检测，请换一个', icon: 'none' });
