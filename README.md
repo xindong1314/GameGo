@@ -61,7 +61,21 @@ project.config.json     微信开发者工具的项目配置（导入的是仓�
 
    要用真正的 KataGo（人机的全部难度、终局死子判断），按 [docs/ai.md 第 4 节](docs/ai.md#4-安装-katago) 安装 v1.18.1 与 b10c128 权重，在 `.env` 里填 `KATAGO_PATH/KATAGO_MODEL/KATAGO_CONFIG`。没有 KataGo 时数子阶段是双方手动点选死子。
 
-2. 小程序指向本机：把 `miniprogram/config.js` 的 `API_BASE`、`WS_URL` 改成同一个局域网 IP（`DEV_LOGIN: true` 保持不变）。
+2. 生成本地小程序配置（自动选择当前局域网 IPv4 地址，文件不会提交 Git）：
+
+   ```bash
+   npm run config:local
+   ```
+
+   Windows PowerShell 如果禁止执行 `npm.ps1`，使用 `npm.cmd run config:local`。
+
+   如果自动选择的地址不正确，可以手动指定地址和端口：
+
+   ```bash
+   npm run config:local -- 192.168.1.100 8080
+   ```
+
+   生成结果位于 `miniprogram/config.local.js`。手机与电脑应连接同一个 Wi-Fi，`DEV_LOGIN` 在本地开发时保持为 `true`。
 
 3. 微信开发者工具 → 导入项目，目录选**仓库根目录**（不是 `miniprogram/`），AppID 用默认的游客 `touristappid` 即可；"详情 → 本地设置"里勾选**不校验合法域名**。
 

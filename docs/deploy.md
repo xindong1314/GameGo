@@ -400,7 +400,7 @@ WebSocket 可以用 `npx wscat -c "wss://go.example.com/ws" -H "Authorization: B
 - 如果用了非 443 端口（如 `https://go.example.com:8443`），这里也要带上端口，且只能访问这个端口；
 - 服务器域名每月修改次数有限，填之前确认无误。
 
-填好后把小程序的 `miniprogram/config.js` 改成正式地址：
+填好后创建小程序本地覆盖文件 `miniprogram/config.local.js`（该文件不会提交 Git），写入正式地址：
 
 ```js
 module.exports = {
@@ -540,7 +540,15 @@ netsh advfirewall firewall add rule name="GameGo 8080" dir=in action=allow proto
 
 在微信开发者工具里选"导入项目"，目录选**仓库根目录**（`project.config.json` 所在的目录，它把 `miniprogramRoot` 指向 `miniprogram/`），不要选 `miniprogram/` 子目录。
 
-修改 `miniprogram/config.js`：
+在仓库根目录生成 `miniprogram/config.local.js`：
+
+```bash
+npm run config:local
+# 自动检测不正确时手动指定：
+npm run config:local -- 192.168.1.100 8080
+```
+
+生成内容如下：
 
 ```js
 module.exports = {
@@ -609,7 +617,7 @@ node --disable-warning=ExperimentalWarning --test test/ai/ test/katago.real.test
 ### 9.5 上线前检查清单
 
 - [ ] `.env`：`DEV_LOGIN=0`、`AI_FALLBACK=0`、`HOST=127.0.0.1`、`PUBLIC_BASE_URL=https://你的域名`、`WX_APPID/WX_SECRET` 已填、`SEC_CHECK` 不是 `off`
-- [ ] `miniprogram/config.js`：https / wss 正式地址，`DEV_LOGIN: false`
+- [ ] `miniprogram/config.local.js`：https / wss 正式地址，`DEV_LOGIN: false`
 - [ ] `project.config.json`：`appid` 为正式 AppID
 - [ ] 微信公众平台：四类服务器域名、用户隐私保护指引（昵称头像 + 剪切板两项）、小程序备案
 - [ ] nginx：`nginx -t` 通过（旧版本 nginx 不要打开 `http2 on`）、证书有效、`/ws` 转发 Upgrade、`client_max_body_size 3m`、`limit_req`/`limit_conn` 限流（`/avatars/` 用单独的宽限流）、`gamego_noargs` 访问日志格式

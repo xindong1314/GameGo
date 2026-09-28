@@ -551,7 +551,16 @@ AiService = {
 
 ## 8. 客户端（client-infra / client-play / client-pages）
 
-### 8.1 配置 `miniprogram/config.js`
+### 8.1 客户端配置
+
+`miniprogram/config.js` 保存可提交的默认值，并尝试加载由 `.gitignore` 排除的 `config.local.js`。本地开发在仓库根目录运行：
+
+```bash
+npm run config:local
+# 或手动指定：npm run config:local -- 192.168.1.100 8080
+```
+
+生成的本地覆盖文件格式如下：
 
 ```js
 module.exports = {
@@ -560,6 +569,8 @@ module.exports = {
   DEV_LOGIN: true,                         // 服务端未配置微信 AppSecret 时使用开发登录
 };
 ```
+
+未生成本地覆盖文件时默认连接 `127.0.0.1:8080`，适合仅使用开发者工具模拟器的场景。
 
 ### 8.2 网络层 `utils/net/`
 

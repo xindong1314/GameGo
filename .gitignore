@@ -6,6 +6,7 @@ server/.env
 server/katago/*
 !server/katago/analysis.cfg
 project.private.config.json
+miniprogram/config.local.js
 server-java/target*/
 server-java/data/
 server-java/katago/*

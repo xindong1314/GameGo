@@ -5,6 +5,7 @@
   "license": "MIT",
   "author": "xindong1314",
   "scripts": {
+    "config:local": "node scripts/configure-local.js",
     "test": "node --test \"test/*.test.js\" \"test/client/*.test.js\"",
     "test:client": "node --test \"test/client/*.test.js\"",
     "test:e2e": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 \"test/e2e/*.test.js\""
